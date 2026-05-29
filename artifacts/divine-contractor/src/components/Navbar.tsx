@@ -1,48 +1,46 @@
 import { useState, useEffect } from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const navLinks = [
-  { name: "Home", href: "#home" },
-  { name: "About", href: "#about" },
-  { name: "Services", href: "#services" },
-  { name: "Portfolio", href: "#portfolio" },
-  { name: "Testimonials", href: "#testimonials" },
-  { name: "Contact", href: "#contact" },
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Services", href: "/services" },
+  { name: "Portfolio", href: "/portfolio" },
+  { name: "Testimonials", href: "/testimonials" },
+  { name: "Contact", href: "/contact" },
 ];
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [location] = useLocation();
+
+  const isHome = location === "/";
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
+  useEffect(() => {
     setIsMobileMenuOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      const y = element.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({ top: y, behavior: "smooth" });
-    }
-  };
+    window.scrollTo({ top: 0 });
+  }, [location]);
+
+  const solidNav = !isHome || isScrolled;
 
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-foreground shadow-lg py-4" : "bg-transparent py-6"
+        solidNav ? "bg-foreground shadow-lg py-4" : "bg-transparent py-6"
       }`}
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
-          <Link href="/" onClick={(e) => handleNavClick(e as any, "#home")} className="flex items-center gap-2 z-50">
+          <Link href="/" className="flex items-center gap-2 z-50">
             <div className="w-10 h-10 bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl rounded">
               DC
             </div>
@@ -54,26 +52,33 @@ export function Navbar() {
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center space-x-8">
             <ul className="flex space-x-6">
-              {navLinks.map((link) => (
-                <li key={link.name}>
-                  <a
-                    href={link.href}
-                    onClick={(e) => handleNavClick(e, link.href)}
-                    className="text-white hover:text-primary transition-colors font-medium text-sm"
-                    data-testid={`link-nav-${link.name.toLowerCase()}`}
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
+              {navLinks.map((link) => {
+                const isActive = location === link.href;
+                return (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      className={`font-medium text-sm transition-colors ${
+                        isActive
+                          ? "text-primary border-b-2 border-primary pb-0.5"
+                          : "text-white hover:text-primary"
+                      }`}
+                      data-testid={`link-nav-${link.name.toLowerCase()}`}
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
-            <Button
-              className="bg-primary hover:bg-primary/90 text-white font-semibold rounded-none"
-              onClick={(e) => handleNavClick(e as any, "#quote")}
-              data-testid="button-nav-quote"
-            >
-              Get Free Quote
-            </Button>
+            <Link href="/contact">
+              <Button
+                className="bg-primary hover:bg-primary/90 text-white font-semibold rounded-none"
+                data-testid="button-nav-quote"
+              >
+                Get Free Quote
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -94,27 +99,32 @@ export function Navbar() {
         }`}
       >
         <ul className="flex flex-col space-y-6 text-center">
-          {navLinks.map((link) => (
-            <li key={link.name}>
-              <a
-                href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className="text-white text-2xl font-heading font-semibold hover:text-primary transition-colors"
-                data-testid={`link-mobile-nav-${link.name.toLowerCase()}`}
-              >
-                {link.name}
-              </a>
-            </li>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = location === link.href;
+            return (
+              <li key={link.name}>
+                <Link
+                  href={link.href}
+                  className={`text-2xl font-heading font-semibold transition-colors ${
+                    isActive ? "text-primary" : "text-white hover:text-primary"
+                  }`}
+                  data-testid={`link-mobile-nav-${link.name.toLowerCase()}`}
+                >
+                  {link.name}
+                </Link>
+              </li>
+            );
+          })}
           <li className="pt-6">
-            <Button
-              size="lg"
-              className="bg-primary hover:bg-primary/90 text-white font-semibold rounded-none w-full"
-              onClick={(e) => handleNavClick(e as any, "#quote")}
-              data-testid="button-mobile-nav-quote"
-            >
-              Get Free Quote
-            </Button>
+            <Link href="/contact">
+              <Button
+                size="lg"
+                className="bg-primary hover:bg-primary/90 text-white font-semibold rounded-none w-full"
+                data-testid="button-mobile-nav-quote"
+              >
+                Get Free Quote
+              </Button>
+            </Link>
           </li>
         </ul>
       </div>
