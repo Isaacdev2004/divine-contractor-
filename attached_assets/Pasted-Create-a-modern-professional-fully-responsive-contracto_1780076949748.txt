@@ -1,0 +1,223 @@
+Create a modern, professional, fully responsive contractor/construction company website for a company named “Divine Contractor Services Ltd”.
+
+The website should be designed as a lead-generation and portfolio website for a construction/property contractor company.
+
+The main goal of the website is to:
+
+* Generate customer leads
+* Build trust
+* Showcase completed projects
+* Encourage visitors to request quotes or contact the company
+
+STYLE & DESIGN REQUIREMENTS
+
+Design Style:
+
+* Modern construction company website
+* Clean and premium look
+* Professional and trustworthy appearance
+* Minimal but visually strong layout
+* Large sections with proper spacing
+* Smooth scrolling
+* Modern animations and hover effects
+* Mobile-first responsive design
+
+Color Palette:
+
+* Dark Blue
+* Orange
+* White
+* Dark Gray/Black
+
+Typography:
+
+* Use modern bold fonts like Poppins or Montserrat
+* Large bold headings
+* Clean readable body text
+
+GENERAL WEBSITE FEATURES
+
+* Fully responsive on desktop, tablet, and mobile
+* Sticky navigation bar
+* Smooth scrolling navigation
+* Floating WhatsApp contact button
+* Call-to-action buttons throughout the website
+* Fast-loading optimized layout
+* SEO-friendly structure
+* Professional animations
+* Accessible design
+* Modern UI/UX best practices
+
+WEBSITE STRUCTURE
+
+1. HERO SECTION
+   Create a large hero section with:
+
+* Full-width construction background image or video
+* Dark overlay for readability
+* Main headline:
+  “Reliable Construction & Property Services”
+* Subheadline:
+  “Residential & Commercial Contractor Solutions You Can Trust”
+* Primary buttons:
+
+  * Get Free Quote
+  * Call Now
+  * WhatsApp Us
+* Animated entrance effects
+
+2. ABOUT SECTION
+   Create an About Us section containing:
+
+* Company introduction
+* Mission statement
+* Years of experience
+* Professional team information
+* Certifications/licenses placeholders
+* Small image section for team/company
+
+Add trust-building statistics like:
+
+* Projects Completed
+* Years Experience
+* Happy Clients
+* Skilled Workers
+
+3. SERVICES SECTION
+   Create modern service cards in grid layout.
+
+Include these services:
+
+* Building Construction
+* Renovation Services
+* Electrical Installation
+* Plumbing Services
+* Painting & Finishing
+* Property Maintenance
+* Commercial Contracting
+* Residential Projects
+
+Each service card should contain:
+
+* Modern icon
+* Service title
+* Short description
+* Hover animation
+* “Learn More” button
+
+4. WHY CHOOSE US SECTION
+   Create a professional trust-building section.
+
+Include features like:
+
+* Licensed & Insured
+* Experienced Professionals
+* Affordable Pricing
+* Fast Project Delivery
+* Quality Workmanship
+* Customer Satisfaction
+
+Use modern icon boxes/cards.
+
+5. PROJECT PORTFOLIO SECTION
+   Create a modern portfolio/gallery section.
+
+Requirements:
+
+* Grid/masonry gallery layout
+* Large project images
+* Hover overlay effects
+* Project categories
+* Before/after project placeholders
+* Project descriptions
+* Lightbox image preview functionality
+
+Include example project cards like:
+
+* Residential Building Project
+* Commercial Renovation
+* Interior Finishing
+* Property Maintenance
+
+6. TESTIMONIAL SECTION
+   Create a modern testimonials slider/carousel.
+
+Include:
+
+* Client profile image placeholders
+* Client names
+* Star ratings
+* Positive review text
+* Smooth sliding animations
+
+7. QUOTE REQUEST SECTION
+   Create a professional quote request/contact form.
+
+Form fields:
+
+* Full Name
+* Email Address
+* Phone Number
+* Service Needed
+* Project Budget
+* Message
+* File upload option
+
+Include:
+
+* Form validation
+* Success message
+* Professional form styling
+
+8. CONTACT SECTION
+   Create a full contact section including:
+
+* Office address placeholder
+* Phone number
+* Email address
+* WhatsApp number
+* Business hours
+* Embedded Google Map placeholder
+
+9. FOOTER
+   Create a professional footer containing:
+
+* Company logo/name
+* Quick links
+* Services links
+* Social media icons
+* Copyright text
+* Newsletter subscription field
+
+EXTRA FEATURES
+
+Add:
+
+* Scroll reveal animations
+* Hover effects
+* Smooth transitions
+* Counter animations for statistics
+* Scroll-to-top button
+* Loading animation
+* Sticky CTA buttons on mobile
+
+TECHNICAL REQUIREMENTS
+
+Use:
+
+* Modern React frontend
+* Tailwind CSS for styling
+* Framer Motion for animations
+* Responsive grid/flex layouts
+* Clean reusable components
+* Organized folder structure
+
+Ensure:
+
+* Production-quality code
+* Clean component architecture
+* Modern UI/UX standards
+* High performance
+* Accessibility best practices
+
+Create all pages/components professionally and make the website look like a premium modern contractor/construction company website suitable for a real business.

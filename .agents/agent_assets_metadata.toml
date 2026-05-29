@@ -1,0 +1,50 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "5ulsQddUCOxy8897J7fp4"
+uri = "file://attached_assets/hero-bg.png"
+type = "image"
+title = "Hero construction site aerial"
+
+[[generated]]
+id = "p1dZBd1xhEuxnO7G0L9NI"
+uri = "file://attached_assets/about-team.png"
+type = "image"
+title = "Professional construction team"
+
+[[generated]]
+id = "7-Znt2S_4f9xVFnfNfP3W"
+uri = "file://attached_assets/portfolio-1.png"
+type = "image"
+title = "Residential construction"
+
+[[generated]]
+id = "YrNelJ5L1VQ9lvS0SfXNb"
+uri = "file://attached_assets/portfolio-2.png"
+type = "image"
+title = "Commercial building"
+
+[[generated]]
+id = "79qhgF5cRWtySM4SvvFt3"
+uri = "file://attached_assets/portfolio-3.png"
+type = "image"
+title = "Interior finishing"
+
+[[generated]]
+id = "8kDtW5cQnWepW3MdrHDWJ"
+uri = "file://attached_assets/portfolio-4.png"
+type = "image"
+title = "Property maintenance"
+
+[[generated]]
+id = "yhtOheLzGTwP053rTLKUz"
+uri = "file://attached_assets/portfolio-5.png"
+type = "image"
+title = "Exterior renovation"
+
+[[generated]]
+id = "azhDrVioRPkMnkGpFPXR3"
+uri = "file://attached_assets/portfolio-6.png"
+type = "image"
+title = "Commercial interior"
