@@ -1,6 +1,20 @@
 import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
+
+const markerIcon = new L.Icon({
+  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+  iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
+
+const OFFICE_POSITION: [number, number] = [40.7128, -74.006];
 
 export function Contact() {
   return (
@@ -91,23 +105,28 @@ export function Contact() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="h-[500px] lg:h-auto min-h-[500px] bg-gray-200 relative border-4 border-white shadow-xl"
+            className="h-[500px] lg:h-auto min-h-[500px] relative border-4 border-white shadow-xl overflow-hidden"
           >
-            {/* Maps iframe placeholder - styled to look like a map */}
-            <div className="absolute inset-0 bg-[#e5e3df] flex flex-col items-center justify-center text-gray-500 overflow-hidden">
-              <div className="w-full h-full opacity-30" style={{
-                backgroundImage: 'radial-gradient(#9ca3af 1px, transparent 1px)',
-                backgroundSize: '20px 20px'
-              }}></div>
-              
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <MapPin size={48} className="text-primary mb-4" />
-                <span className="font-heading font-bold text-xl text-gray-700 bg-white/80 px-4 py-2">
-                  Interactive Map Placeholder
-                </span>
-                <span className="text-sm mt-2 text-gray-600">123 Builder's Avenue</span>
-              </div>
-            </div>
+            <MapContainer
+              center={OFFICE_POSITION}
+              zoom={15}
+              scrollWheelZoom={false}
+              style={{ height: "100%", width: "100%", minHeight: "500px" }}
+              data-testid="map-contact"
+            >
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              <Marker position={OFFICE_POSITION} icon={markerIcon}>
+                <Popup>
+                  <div className="text-center">
+                    <strong className="block text-sm font-bold">Divine Contractor Services Ltd</strong>
+                    <span className="text-xs text-gray-600">123 Builder's Avenue, Suite 400<br/>Metropolis, NY 10001</span>
+                  </div>
+                </Popup>
+              </Marker>
+            </MapContainer>
           </motion.div>
 
         </div>
