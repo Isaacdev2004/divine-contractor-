@@ -54,7 +54,18 @@ export default defineConfig({
     dedupe: ["react", "react-dom"],
   },
   optimizeDeps: {
-    include: ["react", "react-dom", "leaflet", "react-leaflet"],
+    include: [
+      "react",
+      "react-dom",
+      "leaflet",
+      "react-leaflet",
+      "@radix-ui/react-accordion",
+      "@radix-ui/react-slot",
+      "@radix-ui/react-avatar",
+      "@radix-ui/react-select",
+      "@radix-ui/react-label",
+      "@radix-ui/react-tooltip",
+    ],
   },
   root: path.resolve(import.meta.dirname),
   build: {

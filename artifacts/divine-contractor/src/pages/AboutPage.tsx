@@ -1,6 +1,8 @@
 import { About } from "@/components/About";
 import { WhyChooseUs } from "@/components/WhyChooseUs";
 import { PageHeader } from "@/components/PageHeader";
+import { TeamSection } from "@/components/TeamSection";
+import { CompanyTimeline } from "@/components/CompanyTimeline";
 
 export default function AboutPage() {
   return (
@@ -11,6 +13,8 @@ export default function AboutPage() {
         breadcrumb="About"
       />
       <About />
+      <TeamSection />
+      <CompanyTimeline />
       <WhyChooseUs />
     </div>
   );

@@ -1,5 +1,8 @@
 import { Services } from "@/components/Services";
 import { PageHeader } from "@/components/PageHeader";
+import { ServiceProcess } from "@/components/ServiceProcess";
+import { ServiceFAQ } from "@/components/ServiceFAQ";
+import { CTABanner } from "@/components/CTABanner";
 
 export default function ServicesPage() {
   return (
@@ -10,6 +13,14 @@ export default function ServicesPage() {
         breadcrumb="Services"
       />
       <Services />
+      <ServiceProcess />
+      <ServiceFAQ />
+      <CTABanner
+        title="Ready to Get Started?"
+        subtitle="Let's build something great together."
+        primaryLabel="Get Free Quote"
+        primaryHref="/contact"
+      />
     </div>
   );
 }
