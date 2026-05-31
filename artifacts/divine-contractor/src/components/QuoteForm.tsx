@@ -1,8 +1,9 @@
+import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { motion } from "framer-motion";
-import { UploadCloud } from "lucide-react";
+import { UploadCloud, X, FileText, Image, File, CheckCircle2 } from "lucide-react";
 
 import {
   Form,
@@ -23,6 +24,22 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 
+const MAX_FILES = 5;
+const MAX_SIZE_MB = 10;
+const ACCEPTED_TYPES = [
+  "application/pdf",
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/vnd.ms-excel",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+];
+const ACCEPT_ATTR = ".pdf,.jpg,.jpeg,.png,.webp,.gif,.doc,.docx,.xls,.xlsx";
+
 const formSchema = z.object({
   fullName: z.string().min(2, "Full name is required"),
   email: z.string().email("Valid email is required"),
@@ -40,19 +57,35 @@ const servicesList = [
   "Painting & Finishing",
   "Property Maintenance",
   "Commercial Contracting",
-  "Residential Projects"
+  "Residential Projects",
 ];
 
-const budgetList = [
-  "Under $10k",
-  "$10k - $50k",
-  "$50k - $100k",
-  "$100k+"
-];
+const budgetList = ["Under $10k", "$10k - $50k", "$50k - $100k", "$100k+"];
+
+interface AttachedFile {
+  file: File;
+  id: string;
+  error?: string;
+}
+
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function FileIcon({ type }: { type: string }) {
+  if (type.startsWith("image/")) return <Image className="w-4 h-4 text-blue-500" />;
+  if (type === "application/pdf") return <FileText className="w-4 h-4 text-red-500" />;
+  return <File className="w-4 h-4 text-gray-500" />;
+}
 
 export function QuoteForm() {
   const { toast } = useToast();
-  
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [attachedFiles, setAttachedFiles] = useState<AttachedFile[]>([]);
+  const [submitted, setSubmitted] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -65,25 +98,79 @@ export function QuoteForm() {
     },
   });
 
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const incoming = Array.from(e.target.files ?? []);
+    if (!incoming.length) return;
+
+    const remaining = MAX_FILES - attachedFiles.length;
+    if (remaining <= 0) {
+      toast({ description: `Maximum ${MAX_FILES} files allowed.`, variant: "destructive" });
+      e.target.value = "";
+      return;
+    }
+
+    const toAdd: AttachedFile[] = incoming.slice(0, remaining).map((file) => {
+      let error: string | undefined;
+      if (!ACCEPTED_TYPES.includes(file.type)) {
+        error = "Unsupported file type";
+      } else if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+        error = `Exceeds ${MAX_SIZE_MB} MB limit`;
+      }
+      return { file, id: `${file.name}-${Date.now()}-${Math.random()}`, error };
+    });
+
+    setAttachedFiles((prev) => [...prev, ...toAdd]);
+    e.target.value = "";
+  }
+
+  function removeFile(id: string) {
+    setAttachedFiles((prev) => prev.filter((f) => f.id !== id));
+  }
+
+  function openFilePicker() {
+    fileInputRef.current?.click();
+  }
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    const hasErrors = attachedFiles.some((f) => f.error);
+    if (hasErrors) {
+      toast({
+        title: "Fix file errors before submitting",
+        description: "Remove the invalid files and try again.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const fileNames = attachedFiles.map((f) => f.file.name);
+    const fileDesc =
+      fileNames.length > 0
+        ? `${fileNames.length} file${fileNames.length > 1 ? "s" : ""} attached: ${fileNames.join(", ")}`
+        : "No files attached.";
+
+    console.log("Quote submission:", values, "Files:", fileNames);
+
+    setSubmitted(true);
+    form.reset();
+    setAttachedFiles([]);
+
     toast({
-      title: "Quote Request Sent Successfully!",
-      description: "Our team will contact you within 24 hours.",
-      variant: "default",
+      title: "Quote Request Sent!",
+      description: `We'll be in touch within 24 hours. ${fileDesc}`,
       className: "bg-primary text-white border-none",
     });
-    form.reset();
+
+    setTimeout(() => setSubmitted(false), 5000);
   }
 
   return (
     <section id="quote" className="py-24 bg-foreground text-white relative">
-      {/* Decorative lines */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent"></div>
-      
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
+
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
-          
+
+          {/* Left copy */}
           <div className="lg:col-span-2 flex flex-col justify-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -92,7 +179,7 @@ export function QuoteForm() {
               transition={{ duration: 0.6 }}
             >
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-12 h-1 bg-primary"></div>
+                <div className="w-12 h-1 bg-primary" />
                 <span className="text-primary font-bold tracking-wider uppercase text-sm">Start Your Project</span>
               </div>
               <h2 className="text-3xl md:text-5xl font-heading font-bold mb-6 leading-tight">
@@ -101,30 +188,24 @@ export function QuoteForm() {
               <p className="text-gray-400 mb-8 text-lg">
                 Ready to build something great? Fill out the form with your project details, and our estimating team will get back to you with a comprehensive proposal.
               </p>
-              
               <ul className="space-y-4 mb-8">
-                <li className="flex items-center gap-3">
-                  <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-                    <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  </div>
-                  <span className="text-gray-300">Detailed cost breakdown</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-                    <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  </div>
-                  <span className="text-gray-300">Realistic project timeline</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-                    <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  </div>
-                  <span className="text-gray-300">No obligation consultation</span>
-                </li>
+                {["Detailed cost breakdown", "Realistic project timeline", "No obligation consultation"].map((item) => (
+                  <li key={item} className="flex items-center gap-3">
+                    <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                      <div className="w-2 h-2 bg-primary rounded-full" />
+                    </div>
+                    <span className="text-gray-300">{item}</span>
+                  </li>
+                ))}
               </ul>
+              <div className="border border-white/10 rounded p-4 text-sm text-gray-400">
+                <p className="font-semibold text-white mb-1">Accepted file types</p>
+                <p>PDF, JPG, PNG, DOCX, XLSX — up to {MAX_SIZE_MB} MB each, max {MAX_FILES} files</p>
+              </div>
             </motion.div>
           </div>
 
+          {/* Right form */}
           <div className="lg:col-span-3">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -133,65 +214,116 @@ export function QuoteForm() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="bg-white p-8 md:p-10 shadow-2xl"
             >
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <FormField
-                      control={form.control}
-                      name="fullName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <Input placeholder="Full Name" className="h-12 bg-gray-50 border-gray-200 text-gray-900 rounded-none focus-visible:ring-primary focus-visible:border-primary" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <Input placeholder="Email Address" type="email" className="h-12 bg-gray-50 border-gray-200 text-gray-900 rounded-none focus-visible:ring-primary focus-visible:border-primary" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+              {submitted ? (
+                <div className="flex flex-col items-center justify-center py-16 text-center">
+                  <CheckCircle2 className="w-16 h-16 text-primary mb-4" />
+                  <h3 className="text-2xl font-heading font-bold text-foreground mb-2">Request Submitted!</h3>
+                  <p className="text-gray-500">Our team will contact you within 24 hours.</p>
+                </div>
+              ) : (
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <FormField
+                        control={form.control}
+                        name="fullName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input
+                                placeholder="Full Name"
+                                data-testid="input-full-name"
+                                className="h-12 bg-gray-50 border-gray-200 text-gray-900 rounded-none focus-visible:ring-primary focus-visible:border-primary"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input
+                                placeholder="Email Address"
+                                type="email"
+                                data-testid="input-email"
+                                className="h-12 bg-gray-50 border-gray-200 text-gray-900 rounded-none focus-visible:ring-primary focus-visible:border-primary"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <FormField
+                        control={form.control}
+                        name="phone"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input
+                                placeholder="Phone Number"
+                                type="tel"
+                                data-testid="input-phone"
+                                className="h-12 bg-gray-50 border-gray-200 text-gray-900 rounded-none focus-visible:ring-primary focus-visible:border-primary"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="service"
+                        render={({ field }) => (
+                          <FormItem>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger
+                                  className="h-12 bg-gray-50 border-gray-200 text-gray-900 rounded-none focus:ring-primary focus:border-primary"
+                                  data-testid="select-service"
+                                >
+                                  <SelectValue placeholder="Select Service Needed" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent className="rounded-none">
+                                {servicesList.map((srv) => (
+                                  <SelectItem key={srv} value={srv}>{srv}</SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
                     <FormField
                       control={form.control}
-                      name="phone"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <Input placeholder="Phone Number" type="tel" className="h-12 bg-gray-50 border-gray-200 text-gray-900 rounded-none focus-visible:ring-primary focus-visible:border-primary" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="service"
+                      name="budget"
                       render={({ field }) => (
                         <FormItem>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                              <SelectTrigger className="h-12 bg-gray-50 border-gray-200 text-gray-900 rounded-none focus:ring-primary focus:border-primary">
-                                <SelectValue placeholder="Select Service Needed" />
+                              <SelectTrigger
+                                className="h-12 bg-gray-50 border-gray-200 text-gray-900 rounded-none focus:ring-primary focus:border-primary"
+                                data-testid="select-budget"
+                              >
+                                <SelectValue placeholder="Project Budget" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent className="rounded-none">
-                              {servicesList.map((srv) => (
-                                <SelectItem key={srv} value={srv}>{srv}</SelectItem>
+                              {budgetList.map((bud) => (
+                                <SelectItem key={bud} value={bud}>{bud}</SelectItem>
                               ))}
                             </SelectContent>
                           </Select>
@@ -199,75 +331,112 @@ export function QuoteForm() {
                         </FormItem>
                       )}
                     />
-                  </div>
 
-                  <FormField
-                    control={form.control}
-                    name="budget"
-                    render={({ field }) => (
-                      <FormItem>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormField
+                      control={form.control}
+                      name="message"
+                      render={({ field }) => (
+                        <FormItem>
                           <FormControl>
-                            <SelectTrigger className="h-12 bg-gray-50 border-gray-200 text-gray-900 rounded-none focus:ring-primary focus:border-primary">
-                              <SelectValue placeholder="Project Budget" />
-                            </SelectTrigger>
+                            <Textarea
+                              placeholder="Tell us about your project..."
+                              data-testid="textarea-message"
+                              className="min-h-[120px] bg-gray-50 border-gray-200 text-gray-900 rounded-none focus-visible:ring-primary focus-visible:border-primary resize-y"
+                              {...field}
+                            />
                           </FormControl>
-                          <SelectContent className="rounded-none">
-                            {budgetList.map((bud) => (
-                              <SelectItem key={bud} value={bud}>{bud}</SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                  <FormField
-                    control={form.control}
-                    name="message"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Textarea 
-                            placeholder="Tell us about your project..." 
-                            className="min-h-[120px] bg-gray-50 border-gray-200 text-gray-900 rounded-none focus-visible:ring-primary focus-visible:border-primary resize-y" 
-                            {...field} 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                    {/* File Upload */}
+                    <div className="space-y-3">
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept={ACCEPT_ATTR}
+                        multiple
+                        className="hidden"
+                        data-testid="input-file-hidden"
+                        onChange={handleFileChange}
+                      />
 
-                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-                    <Button 
-                      type="button" 
-                      variant="outline" 
-                      className="w-full sm:w-auto h-12 rounded-none border-dashed border-2 border-gray-300 text-gray-500 hover:text-primary hover:border-primary hover:bg-primary/5"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        toast({ description: "File upload feature coming soon." });
-                      }}
-                    >
-                      <UploadCloud className="mr-2 h-5 w-5" />
-                      Attach Blueprints (Optional)
-                    </Button>
+                      <button
+                        type="button"
+                        onClick={openFilePicker}
+                        disabled={attachedFiles.length >= MAX_FILES}
+                        data-testid="button-upload-file"
+                        className="w-full border-2 border-dashed border-gray-300 hover:border-primary hover:bg-primary/5 disabled:opacity-40 disabled:cursor-not-allowed transition-colors rounded-none p-5 flex flex-col items-center gap-2 text-gray-500 hover:text-primary"
+                      >
+                        <UploadCloud className="w-8 h-8" />
+                        <span className="font-semibold text-sm">
+                          {attachedFiles.length >= MAX_FILES
+                            ? "Maximum files reached"
+                            : "Click to attach blueprints, plans or photos"}
+                        </span>
+                        <span className="text-xs text-gray-400">
+                          PDF, JPG, PNG, DOCX, XLSX — up to {MAX_SIZE_MB} MB each
+                        </span>
+                      </button>
 
-                    <Button 
-                      type="submit" 
-                      className="w-full sm:w-auto h-12 px-8 bg-primary hover:bg-primary/90 text-white font-bold rounded-none text-base"
+                      {/* File list */}
+                      {attachedFiles.length > 0 && (
+                        <ul className="space-y-2">
+                          {attachedFiles.map(({ file, id, error }) => (
+                            <li
+                              key={id}
+                              data-testid={`file-item-${id}`}
+                              className={`flex items-center gap-3 px-4 py-3 rounded text-sm border ${
+                                error
+                                  ? "border-red-200 bg-red-50"
+                                  : "border-gray-200 bg-gray-50"
+                              }`}
+                            >
+                              <FileIcon type={file.type} />
+                              <div className="flex-1 min-w-0">
+                                <p className={`font-medium truncate ${error ? "text-red-600" : "text-gray-800"}`}>
+                                  {file.name}
+                                </p>
+                                <p className={`text-xs ${error ? "text-red-500" : "text-gray-400"}`}>
+                                  {error ?? formatBytes(file.size)}
+                                </p>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => removeFile(id)}
+                                data-testid={`button-remove-file-${id}`}
+                                className="text-gray-400 hover:text-red-500 transition-colors flex-shrink-0"
+                                aria-label={`Remove ${file.name}`}
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+
+                      {attachedFiles.length > 0 && (
+                        <p className="text-xs text-gray-400 text-right">
+                          {attachedFiles.length} / {MAX_FILES} files attached
+                        </p>
+                      )}
+                    </div>
+
+                    <Button
+                      type="submit"
+                      className="w-full h-12 px-8 bg-primary hover:bg-primary/90 text-white font-bold rounded-none text-base"
                       data-testid="button-submit-quote"
                     >
                       Submit Request
                     </Button>
-                  </div>
-                  
-                </form>
-              </Form>
+
+                  </form>
+                </Form>
+              )}
             </motion.div>
           </div>
-          
+
         </div>
       </div>
     </section>
