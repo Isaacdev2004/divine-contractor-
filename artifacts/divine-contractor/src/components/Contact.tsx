@@ -14,7 +14,7 @@ const markerIcon = new L.Icon({
   shadowSize: [41, 41],
 });
 
-const OFFICE_POSITION: [number, number] = [40.7128, -74.006];
+const OFFICE_POSITION: [number, number] = [51.4724, -0.0395];
 
 export function Contact() {
   return (
@@ -48,7 +48,7 @@ export function Contact() {
                 </div>
                 <div>
                   <h4 className="font-heading font-bold text-foreground text-lg mb-1">Head Office</h4>
-                  <p className="text-gray-600">123 Builder's Avenue, Suite 400<br/>Metropolis, NY 10001</p>
+                  <p className="text-gray-600">5 Edmund House, 75 St Donatts Road<br/>London, SE14 6PL</p>
                 </div>
               </div>
 
@@ -58,7 +58,7 @@ export function Contact() {
                 </div>
                 <div>
                   <h4 className="font-heading font-bold text-foreground text-lg mb-1">Phone & WhatsApp</h4>
-                  <p className="text-gray-600">Main: +1 (555) 123-4567<br/>WhatsApp: +1 (555) 987-6543</p>
+                  <p className="text-gray-600">Main: 07716 472008<br/>WhatsApp: 07716 472008</p>
                 </div>
               </div>
 
@@ -68,7 +68,7 @@ export function Contact() {
                 </div>
                 <div>
                   <h4 className="font-heading font-bold text-foreground text-lg mb-1">Email Address</h4>
-                  <p className="text-gray-600">info@divinecontractor.com<br/>estimates@divinecontractor.com</p>
+                  <p className="text-gray-600">tunde.ariyo@yahoo.co.uk</p>
                 </div>
               </div>
 
@@ -122,7 +122,7 @@ export function Contact() {
                 <Popup>
                   <div className="text-center">
                     <strong className="block text-sm font-bold">Divine Contractor Services Ltd</strong>
-                    <span className="text-xs text-gray-600">123 Builder's Avenue, Suite 400<br/>Metropolis, NY 10001</span>
+                    <span className="text-xs text-gray-600">5 Edmund House, 75 St Donatts Road<br/>London, SE14 6PL</span>
                   </div>
                 </Popup>
               </Marker>
