@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { HardHat, Hammer, Zap, Droplets, Paintbrush, Wrench, Building2, Home, ArrowRight } from "lucide-react";
+import { HardHat, Hammer, Zap, Droplets, Paintbrush, Wrench, Building2, Home, ArrowRight, Trash2, PackageOpen, Recycle } from "lucide-react";
 
 const services = [
   {
@@ -13,14 +13,24 @@ const services = [
     description: "Transforming existing spaces with modern designs, structural upgrades, and premium materials."
   },
   {
+    icon: Trash2,
+    title: "Rubbish Removal",
+    description: "Fast, reliable rubbish removal for households and businesses across London. We clear it all — furniture, appliances, general waste — same day available."
+  },
+  {
+    icon: PackageOpen,
+    title: "House & Office Clearance",
+    description: "Full property clearances handled professionally and efficiently. Ideal for end-of-tenancy, bereavement, or decluttering — we do the heavy lifting."
+  },
+  {
+    icon: Recycle,
+    title: "Waste Collection & Disposal",
+    description: "Scheduled and one-off waste collection with responsible disposal and recycling. Non-hazardous waste collected and processed compliantly."
+  },
+  {
     icon: Zap,
     title: "Electrical Installation",
     description: "Safe, code-compliant electrical systems for residential and commercial properties by certified technicians."
-  },
-  {
-    icon: Droplets,
-    title: "Plumbing Services",
-    description: "Comprehensive plumbing solutions, from pipe laying to fixture installation and emergency repairs."
   },
   {
     icon: Paintbrush,
@@ -76,10 +86,10 @@ export function Services() {
             <div className="w-12 h-1 bg-primary"></div>
           </div>
           <h2 className="text-3xl md:text-5xl font-heading font-bold text-foreground mb-6">
-            Comprehensive Contractor Services
+            Construction & Clearance Services
           </h2>
           <p className="text-gray-600 text-lg">
-            We deliver end-to-end solutions for projects of any scale, combining skilled craftsmanship with rigorous project management.
+            From ground-up construction and renovation to rubbish removal and full property clearances — we deliver end-to-end solutions across London.
           </p>
         </div>
 

@@ -9,7 +9,7 @@ export default function ServicesPage() {
     <div className="min-h-screen bg-background font-sans">
       <PageHeader
         title="Our Services"
-        subtitle="Comprehensive construction and property solutions tailored to residential and commercial clients."
+        subtitle="From building construction and renovation to rubbish removal and full property clearances — London's trusted contractor."
         breadcrumb="Services"
       />
       <Services />

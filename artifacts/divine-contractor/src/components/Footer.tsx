@@ -7,8 +7,9 @@ import { Link } from "wouter";
 const serviceLinks = [
   "Building Construction",
   "Renovation Services",
-  "Electrical Installation",
-  "Plumbing Services",
+  "Rubbish Removal",
+  "House & Office Clearance",
+  "Waste Collection & Disposal",
   "Painting & Finishing",
 ];
 

@@ -52,8 +52,10 @@ const formSchema = z.object({
 const servicesList = [
   "Building Construction",
   "Renovation Services",
+  "Rubbish Removal",
+  "House & Office Clearance",
+  "Waste Collection & Disposal",
   "Electrical Installation",
-  "Plumbing Services",
   "Painting & Finishing",
   "Property Maintenance",
   "Commercial Contracting",
