@@ -5,13 +5,15 @@
   "scripts": {
     "preinstall": "node -e \"const fs=require('fs');['package-lock.json','yarn.lock'].forEach((f)=>{try{fs.unlinkSync(f)}catch{}});if(!(process.env.npm_config_user_agent||'').startsWith('pnpm/')){console.error('Use pnpm instead');process.exit(1)}\"",
     "build": "pnpm run typecheck && pnpm -r --if-present run build",
-    "build:site": "pnpm --filter @workspace/divine-contractor run build",
+    "build:site": "pnpm --filter @workspace/divine-contractor run build && node scripts/verify-site-build.mjs",
+    "start:site": "serve artifacts/divine-contractor/dist/public -s -l tcp://0.0.0.0:${PORT:-10000}",
     "typecheck:libs": "tsc --build",
     "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
   },
   "private": true,
   "devDependencies": {
     "prettier": "^3.8.3",
+    "serve": "^14.2.4",
     "typescript": "~5.9.3"
   }
 }
