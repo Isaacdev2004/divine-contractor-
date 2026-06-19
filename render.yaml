@@ -4,24 +4,13 @@ services:
   - type: web
     name: divine-contractor
     runtime: static
-    plan: free
-    buildCommand: corepack enable && corepack prepare pnpm@10.26.2 --activate && pnpm install --ignore-scripts && pnpm run build:site
-    staticPublishPath: ./artifacts/divine-contractor/dist/public
+    buildCommand: npm install -g pnpm@10.26.2 && pnpm install && pnpm run build:site
+    staticPublishPath: artifacts/divine-contractor/dist/public
     envVars:
       - key: SKIP_INSTALL_DEPS
         value: "true"
-      - key: NODE_VERSION
-        value: "22"
       - key: BASE_PATH
-        value: /
-    buildFilter:
-      paths:
-        - artifacts/divine-contractor/**
-        - attached_assets/**
-        - pnpm-workspace.yaml
-        - pnpm-lock.yaml
-        - package.json
-        - render.yaml
+        value: "/"
     routes:
       - type: rewrite
         source: /*
