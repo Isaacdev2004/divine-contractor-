@@ -44,7 +44,7 @@ export function Navbar() {
             <img
               src="/logo.png"
               alt="Divine Construction Services"
-              className="h-12 sm:h-14 w-auto object-contain"
+              className="h-11 sm:h-12 w-auto max-w-[200px] object-contain rounded-md bg-white px-2 py-1"
             />
           </Link>
 

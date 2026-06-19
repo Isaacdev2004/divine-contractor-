@@ -33,7 +33,7 @@ export function Footer() {
               <img
                 src="/logo.png"
                 alt="Divine Construction Services"
-                className="h-20 w-auto max-w-[220px] object-contain"
+                className="h-20 w-auto max-w-[240px] object-contain rounded-md bg-white px-2 py-1"
               />
             </Link>
             <p className="text-gray-400 mb-6 text-sm leading-relaxed">
