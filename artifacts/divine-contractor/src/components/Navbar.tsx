@@ -40,13 +40,12 @@ export function Navbar() {
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 z-50">
-            <div className="w-10 h-10 bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl rounded">
-              DC
-            </div>
-            <span className="text-white font-heading font-bold text-xl tracking-tight hidden sm:block">
-              DIVINE CONTRACTOR
-            </span>
+          <Link href="/" className="flex items-center z-50">
+            <img
+              src="/logo.png"
+              alt="Divine Construction Services"
+              className="h-12 sm:h-14 w-auto object-contain"
+            />
           </Link>
 
           {/* Desktop Nav */}

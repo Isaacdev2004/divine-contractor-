@@ -29,13 +29,12 @@ export function Footer() {
 
           {/* Brand Col */}
           <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-6">
-              <div className="w-10 h-10 bg-primary text-white flex items-center justify-center font-bold text-xl rounded">
-                DC
-              </div>
-              <span className="text-white font-heading font-bold text-xl tracking-tight">
-                DIVINE CONTRACTOR
-              </span>
+            <Link href="/" className="inline-block mb-6">
+              <img
+                src="/logo.png"
+                alt="Divine Construction Services"
+                className="h-20 w-auto max-w-[220px] object-contain"
+              />
             </Link>
             <p className="text-gray-400 mb-6 text-sm leading-relaxed">
               Premium construction and property services. Building durable, aesthetic, and functional structures that stand the test of time.

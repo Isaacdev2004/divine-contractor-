@@ -1,0 +1,28 @@
+# Render Blueprint — Divine Contractor static site
+# Connect repo: https://dashboard.render.com/blueprint/new
+services:
+  - type: web
+    name: divine-contractor
+    runtime: static
+    plan: free
+    buildCommand: corepack enable && corepack prepare pnpm@10.26.2 --activate && pnpm install --ignore-scripts && pnpm run build:site
+    staticPublishPath: ./artifacts/divine-contractor/dist/public
+    envVars:
+      - key: SKIP_INSTALL_DEPS
+        value: "true"
+      - key: NODE_VERSION
+        value: "22"
+      - key: BASE_PATH
+        value: /
+    buildFilter:
+      paths:
+        - artifacts/divine-contractor/**
+        - attached_assets/**
+        - pnpm-workspace.yaml
+        - pnpm-lock.yaml
+        - package.json
+        - render.yaml
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
