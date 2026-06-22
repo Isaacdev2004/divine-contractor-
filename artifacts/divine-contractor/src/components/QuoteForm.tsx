@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { CONTACT, contactLinks } from "@/lib/contact";
 
 const MAX_FILES = 5;
 const MAX_SIZE_MB = 10;
@@ -145,20 +146,34 @@ export function QuoteForm() {
     }
 
     const fileNames = attachedFiles.map((f) => f.file.name);
-    const fileDesc =
+    const fileNote =
       fileNames.length > 0
-        ? `${fileNames.length} file${fileNames.length > 1 ? "s" : ""} attached: ${fileNames.join(", ")}`
-        : "No files attached.";
+        ? `\n\nFiles to attach manually: ${fileNames.join(", ")}`
+        : "";
 
-    console.log("Quote submission:", values, "Files:", fileNames);
+    const body = [
+      `Name: ${values.fullName}`,
+      `Email: ${values.email}`,
+      `Phone: ${values.phone}`,
+      `Service: ${values.service}`,
+      `Budget: ${values.budget}`,
+      "",
+      values.message,
+      fileNote,
+    ].join("\n");
+
+    const mailtoUrl = `${contactLinks.email}?subject=${encodeURIComponent(`Quote Request from ${values.fullName}`)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoUrl;
 
     setSubmitted(true);
     form.reset();
     setAttachedFiles([]);
 
     toast({
-      title: "Quote Request Sent!",
-      description: `We'll be in touch within 24 hours. ${fileDesc}`,
+      title: "Opening your email app",
+      description: fileNames.length > 0
+        ? "Please attach your files before sending the email."
+        : "Your quote details have been prepared. Send the email to complete your request.",
       className: "bg-primary text-white border-none",
     });
 
@@ -200,9 +215,17 @@ export function QuoteForm() {
                   </li>
                 ))}
               </ul>
-              <div className="border border-white/10 rounded p-4 text-sm text-gray-400">
-                <p className="font-semibold text-white mb-1">Accepted file types</p>
-                <p>PDF, JPG, PNG, DOCX, XLSX — up to {MAX_SIZE_MB} MB each, max {MAX_FILES} files</p>
+              <div className="border border-white/10 rounded p-4 text-sm text-gray-400 space-y-3">
+                <div>
+                  <p className="font-semibold text-white mb-1">Direct contact</p>
+                  <p>{CONTACT.person}</p>
+                  <a href={contactLinks.tel} className="block hover:text-primary transition-colors">{CONTACT.phoneDisplay}</a>
+                  <a href={contactLinks.email} className="block hover:text-primary transition-colors break-all">{CONTACT.email}</a>
+                </div>
+                <div>
+                  <p className="font-semibold text-white mb-1">Accepted file types</p>
+                  <p>PDF, JPG, PNG, DOCX, XLSX — up to {MAX_SIZE_MB} MB each, max {MAX_FILES} files</p>
+                </div>
               </div>
             </motion.div>
           </div>
@@ -219,8 +242,8 @@ export function QuoteForm() {
               {submitted ? (
                 <div className="flex flex-col items-center justify-center py-16 text-center">
                   <CheckCircle2 className="w-16 h-16 text-primary mb-4" />
-                  <h3 className="text-2xl font-heading font-bold text-foreground mb-2">Request Submitted!</h3>
-                  <p className="text-gray-500">Our team will contact you within 24 hours.</p>
+                  <h3 className="text-2xl font-heading font-bold text-foreground mb-2">Email Ready!</h3>
+                  <p className="text-gray-500">Send the email to {CONTACT.email} and we will contact you within 24 hours.</p>
                 </div>
               ) : (
                 <Form {...form}>

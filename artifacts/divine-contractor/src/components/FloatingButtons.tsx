@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ArrowUp } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
+import { contactLinks } from "@/lib/contact";
 import { useLocation } from "wouter";
 
 export function FloatingButtons() {
@@ -30,7 +31,7 @@ export function FloatingButtons() {
         </button>
 
         <a
-          href="https://wa.me/447716472008"
+          href={contactLinks.whatsapp}
           target="_blank"
           rel="noreferrer"
           className="w-14 h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-300"
@@ -44,7 +45,7 @@ export function FloatingButtons() {
       {/* Mobile Sticky CTA Bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-3 z-40 flex gap-3 md:hidden shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
         <a
-          href="tel:+447716472008"
+          href={contactLinks.tel}
           className="flex-1 bg-foreground text-white text-center py-3 rounded-none font-bold text-sm"
         >
           Call Now

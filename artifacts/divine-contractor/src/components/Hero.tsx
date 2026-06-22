@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Phone, MessageCircle } from "lucide-react";
+import { contactLinks } from "@/lib/contact";
 import heroBg from "@assets/hero-bg.png";
 
 export function Hero() {
@@ -93,7 +94,7 @@ export function Hero() {
               size="lg"
               variant="outline"
               className="border-white text-white hover:bg-white/10 rounded-none h-14 px-8 text-lg w-full sm:w-auto bg-transparent"
-              onClick={() => window.location.href = "tel:+1234567890"}
+              onClick={() => { window.location.href = contactLinks.tel; }}
               data-testid="button-hero-call"
             >
               <Phone className="mr-2 h-5 w-5" />
@@ -102,7 +103,7 @@ export function Hero() {
             <Button
               size="lg"
               className="bg-[#25D366] hover:bg-[#25D366]/90 text-white rounded-none h-14 px-8 text-lg w-full sm:w-auto"
-              onClick={() => window.open("https://wa.me/1234567890", "_blank")}
+              onClick={() => window.open(contactLinks.whatsapp, "_blank")}
               data-testid="button-hero-whatsapp"
             >
               <MessageCircle className="mr-2 h-5 w-5" />

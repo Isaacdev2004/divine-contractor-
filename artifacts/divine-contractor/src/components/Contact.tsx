@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, User } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
+import { CONTACT, contactLinks } from "@/lib/contact";
 
 const markerIcon = new L.Icon({
   iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
@@ -14,15 +15,12 @@ const markerIcon = new L.Icon({
   shadowSize: [41, 41],
 });
 
-const OFFICE_POSITION: [number, number] = [51.4724, -0.0395];
-
 export function Contact() {
   return (
     <section id="contact" className="py-24 bg-white">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          
-          {/* Contact Info */}
+
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -36,19 +34,33 @@ export function Contact() {
             <h2 className="text-3xl md:text-5xl font-heading font-bold text-foreground mb-8">
               Contact Us Today
             </h2>
-            
+
             <p className="text-gray-600 mb-10 text-lg">
-              Have a question or need a consultation? Our team is ready to assist you. Reach out via phone, email, or visit our office.
+              Have a question or need a consultation? Contact {CONTACT.person} directly by phone, email, or visit our office.
             </p>
 
             <div className="space-y-8">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <User className="text-primary w-6 h-6" />
+                </div>
+                <div>
+                  <h4 className="font-heading font-bold text-foreground text-lg mb-1">Contact Person</h4>
+                  <p className="text-gray-600">{CONTACT.person}</p>
+                  <p className="text-gray-500 text-sm mt-1">{CONTACT.company}</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-primary/10 flex items-center justify-center flex-shrink-0">
                   <MapPin className="text-primary w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="font-heading font-bold text-foreground text-lg mb-1">Head Office</h4>
-                  <p className="text-gray-600">5 Edmund House, 75 St Donatts Road<br/>London, SE14 6PL</p>
+                  <h4 className="font-heading font-bold text-foreground text-lg mb-1">Office Address</h4>
+                  <p className="text-gray-600">
+                    {CONTACT.address.line1}<br />
+                    {CONTACT.address.line2}
+                  </p>
                 </div>
               </div>
 
@@ -58,7 +70,20 @@ export function Contact() {
                 </div>
                 <div>
                   <h4 className="font-heading font-bold text-foreground text-lg mb-1">Phone & WhatsApp</h4>
-                  <p className="text-gray-600">Main: 07716 472008<br/>WhatsApp: 07716 472008</p>
+                  <p className="text-gray-600">
+                    <a href={contactLinks.tel} className="hover:text-primary transition-colors">
+                      {CONTACT.phoneDisplay}
+                    </a>
+                    <br />
+                    <a
+                      href={contactLinks.whatsapp}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="hover:text-primary transition-colors"
+                    >
+                      WhatsApp: {CONTACT.phoneDisplay}
+                    </a>
+                  </p>
                 </div>
               </div>
 
@@ -67,8 +92,12 @@ export function Contact() {
                   <Mail className="text-primary w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="font-heading font-bold text-foreground text-lg mb-1">Email Address</h4>
-                  <p className="text-gray-600">tunde.ariyo@yahoo.co.uk</p>
+                  <h4 className="font-heading font-bold text-foreground text-lg mb-1">Email</h4>
+                  <p className="text-gray-600">
+                    <a href={contactLinks.email} className="hover:text-primary transition-colors break-all">
+                      {CONTACT.email}
+                    </a>
+                  </p>
                 </div>
               </div>
 
@@ -78,7 +107,10 @@ export function Contact() {
                 </div>
                 <div>
                   <h4 className="font-heading font-bold text-foreground text-lg mb-1">Business Hours</h4>
-                  <p className="text-gray-600">Mon - Fri: 8:00 AM - 6:00 PM<br/>Saturday: 9:00 AM - 2:00 PM</p>
+                  <p className="text-gray-600">
+                    {CONTACT.hours.weekdays}<br />
+                    {CONTACT.hours.saturday}
+                  </p>
                 </div>
               </div>
             </div>
@@ -99,7 +131,6 @@ export function Contact() {
             </div>
           </motion.div>
 
-          {/* Map */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -108,7 +139,7 @@ export function Contact() {
             className="h-[500px] lg:h-auto min-h-[500px] relative border-4 border-white shadow-xl overflow-hidden"
           >
             <MapContainer
-              center={OFFICE_POSITION}
+              center={CONTACT.mapPosition}
               zoom={15}
               scrollWheelZoom={false}
               style={{ height: "100%", width: "100%", minHeight: "500px" }}
@@ -118,11 +149,15 @@ export function Contact() {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-              <Marker position={OFFICE_POSITION} icon={markerIcon}>
+              <Marker position={CONTACT.mapPosition} icon={markerIcon}>
                 <Popup>
                   <div className="text-center">
-                    <strong className="block text-sm font-bold">Divine Contractor Services Ltd</strong>
-                    <span className="text-xs text-gray-600">5 Edmund House, 75 St Donatts Road<br/>London, SE14 6PL</span>
+                    <strong className="block text-sm font-bold">{CONTACT.companyLegal}</strong>
+                    <span className="text-xs text-gray-600 block mt-1">{CONTACT.person}</span>
+                    <span className="text-xs text-gray-600">
+                      {CONTACT.address.line1}<br />
+                      {CONTACT.address.line2}
+                    </span>
                   </div>
                 </Popup>
               </Marker>

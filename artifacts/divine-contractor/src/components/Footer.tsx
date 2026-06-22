@@ -1,8 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, MapPin, Phone, Mail, User } from "lucide-react";
 import { Link } from "wouter";
+import { CONTACT, contactLinks } from "@/lib/contact";
 
 const serviceLinks = [
   "Building Construction",
@@ -82,22 +81,34 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Newsletter Col */}
+          {/* Contact Col */}
           <div>
-            <h4 className="text-white font-heading font-bold text-lg mb-6">Newsletter</h4>
-            <p className="text-gray-400 text-sm mb-4">
-              Subscribe to our newsletter to receive updates and insights on our latest projects.
-            </p>
-            <form className="flex flex-col gap-3" onSubmit={(e) => e.preventDefault()}>
-              <Input
-                type="email"
-                placeholder="Email Address"
-                className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 rounded-none h-12 focus-visible:ring-primary focus-visible:border-primary"
-              />
-              <Button type="submit" className="bg-primary hover:bg-primary/90 text-white rounded-none h-12 font-bold w-full">
-                Subscribe
-              </Button>
-            </form>
+            <h4 className="text-white font-heading font-bold text-lg mb-6">Contact</h4>
+            <ul className="space-y-4 text-sm">
+              <li className="flex items-start gap-3 text-gray-400">
+                <User size={16} className="text-primary mt-0.5 flex-shrink-0" />
+                <span>{CONTACT.person}</span>
+              </li>
+              <li className="flex items-start gap-3 text-gray-400">
+                <MapPin size={16} className="text-primary mt-0.5 flex-shrink-0" />
+                <span>
+                  {CONTACT.address.line1}<br />
+                  {CONTACT.address.line2}
+                </span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Phone size={16} className="text-primary mt-0.5 flex-shrink-0" />
+                <a href={contactLinks.tel} className="text-gray-400 hover:text-primary transition-colors">
+                  {CONTACT.phoneDisplay}
+                </a>
+              </li>
+              <li className="flex items-start gap-3">
+                <Mail size={16} className="text-primary mt-0.5 flex-shrink-0" />
+                <a href={contactLinks.email} className="text-gray-400 hover:text-primary transition-colors break-all">
+                  {CONTACT.email}
+                </a>
+              </li>
+            </ul>
           </div>
 
         </div>

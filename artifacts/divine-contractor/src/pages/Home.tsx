@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { HardHat, Hammer, Zap, Droplets, ArrowRight, CheckCircle2, Award, Shield, Clock, Phone, MessageSquare, ClipboardList, Star, Quote } from "lucide-react";
+import { contactLinks } from "@/lib/contact";
 import aboutTeam from "@assets/about-team.png";
 import port1 from "@assets/portfolio-1.png";
 import port2 from "@assets/portfolio-2.png";
@@ -350,7 +351,7 @@ export default function Home() {
                   Get Free Quote
                 </Button>
               </Link>
-              <a href="tel:+1234567890">
+              <a href={contactLinks.tel}>
                 <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 rounded-none h-14 px-8 font-bold text-lg bg-transparent" data-testid="button-home-cta-call">
                   <Phone className="mr-2 h-5 w-5" /> Call Now
                 </Button>
