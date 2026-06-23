@@ -93,11 +93,20 @@ export function Contact() {
                 </div>
                 <div>
                   <h4 className="font-heading font-bold text-foreground text-lg mb-1">Email</h4>
-                  <p className="text-gray-600">
-                    <a href={contactLinks.email} className="hover:text-primary transition-colors break-all">
-                      {CONTACT.email}
-                    </a>
-                  </p>
+                  <div className="text-gray-600 space-y-2">
+                    <div>
+                      <p className="text-sm font-medium text-foreground">Director</p>
+                      <a href={contactLinks.directorEmail} className="hover:text-primary transition-colors break-all">
+                        {CONTACT.directorEmail}
+                      </a>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-foreground">Support</p>
+                      <a href={contactLinks.supportEmail} className="hover:text-primary transition-colors break-all">
+                        {CONTACT.supportEmail}
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
 

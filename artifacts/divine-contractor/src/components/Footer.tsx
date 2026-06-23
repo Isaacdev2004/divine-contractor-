@@ -104,9 +104,20 @@ export function Footer() {
               </li>
               <li className="flex items-start gap-3">
                 <Mail size={16} className="text-primary mt-0.5 flex-shrink-0" />
-                <a href={contactLinks.email} className="text-gray-400 hover:text-primary transition-colors break-all">
-                  {CONTACT.email}
-                </a>
+                <div className="space-y-2">
+                  <div>
+                    <p className="text-gray-500 text-xs uppercase tracking-wide">Director</p>
+                    <a href={contactLinks.directorEmail} className="text-gray-400 hover:text-primary transition-colors break-all">
+                      {CONTACT.directorEmail}
+                    </a>
+                  </div>
+                  <div>
+                    <p className="text-gray-500 text-xs uppercase tracking-wide">Support</p>
+                    <a href={contactLinks.supportEmail} className="text-gray-400 hover:text-primary transition-colors break-all">
+                      {CONTACT.supportEmail}
+                    </a>
+                  </div>
+                </div>
               </li>
             </ul>
           </div>

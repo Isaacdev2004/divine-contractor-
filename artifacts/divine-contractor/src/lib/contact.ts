@@ -2,7 +2,8 @@ export const CONTACT = {
   person: "Mr Tunde Ariyo",
   company: "Divine Construction Services",
   companyLegal: "Divine Contractor Services Ltd",
-  email: "tunde.ariyo@yahoo.co.uk",
+  directorEmail: "tunde.ariyo@divinecontractorservices.co.uk",
+  supportEmail: "contact@divinecontractorservices.co.uk",
   phoneDisplay: "07716 472008",
   phoneTel: "+447716472008",
   whatsapp: "447716472008",
@@ -20,6 +21,7 @@ export const CONTACT = {
 
 export const contactLinks = {
   tel: `tel:${CONTACT.phoneTel}`,
-  email: `mailto:${CONTACT.email}`,
+  directorEmail: `mailto:${CONTACT.directorEmail}`,
+  supportEmail: `mailto:${CONTACT.supportEmail}`,
   whatsapp: `https://wa.me/${CONTACT.whatsapp}`,
 };

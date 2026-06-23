@@ -162,7 +162,7 @@ export function QuoteForm() {
       fileNote,
     ].join("\n");
 
-    const mailtoUrl = `${contactLinks.email}?subject=${encodeURIComponent(`Quote Request from ${values.fullName}`)}&body=${encodeURIComponent(body)}`;
+    const mailtoUrl = `${contactLinks.supportEmail}?subject=${encodeURIComponent(`Quote Request from ${values.fullName}`)}&body=${encodeURIComponent(body)}`;
     window.location.href = mailtoUrl;
 
     setSubmitted(true);
@@ -220,7 +220,8 @@ export function QuoteForm() {
                   <p className="font-semibold text-white mb-1">Direct contact</p>
                   <p>{CONTACT.person}</p>
                   <a href={contactLinks.tel} className="block hover:text-primary transition-colors">{CONTACT.phoneDisplay}</a>
-                  <a href={contactLinks.email} className="block hover:text-primary transition-colors break-all">{CONTACT.email}</a>
+                  <a href={contactLinks.directorEmail} className="block hover:text-primary transition-colors break-all">{CONTACT.directorEmail}</a>
+                  <a href={contactLinks.supportEmail} className="block hover:text-primary transition-colors break-all">{CONTACT.supportEmail}</a>
                 </div>
                 <div>
                   <p className="font-semibold text-white mb-1">Accepted file types</p>
@@ -243,7 +244,7 @@ export function QuoteForm() {
                 <div className="flex flex-col items-center justify-center py-16 text-center">
                   <CheckCircle2 className="w-16 h-16 text-primary mb-4" />
                   <h3 className="text-2xl font-heading font-bold text-foreground mb-2">Email Ready!</h3>
-                  <p className="text-gray-500">Send the email to {CONTACT.email} and we will contact you within 24 hours.</p>
+                  <p className="text-gray-500">Send the email to {CONTACT.supportEmail} and we will contact you within 24 hours.</p>
                 </div>
               ) : (
                 <Form {...form}>
