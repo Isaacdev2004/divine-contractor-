@@ -43,7 +43,7 @@ export function Navbar() {
           <Link href="/" className="flex items-center z-50">
             <img
               src="/logo.png"
-              alt="Divine Construction Services"
+              alt="Divine Contractor Services"
               className="h-11 sm:h-12 w-auto max-w-[200px] object-contain rounded-md bg-white px-2 py-1"
             />
           </Link>

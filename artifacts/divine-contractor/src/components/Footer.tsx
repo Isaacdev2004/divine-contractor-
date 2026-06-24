@@ -31,7 +31,7 @@ export function Footer() {
             <Link href="/" className="inline-block mb-6">
               <img
                 src="/logo.png"
-                alt="Divine Construction Services"
+                alt="Divine Contractor Services"
                 className="h-20 w-auto max-w-[240px] object-contain rounded-md bg-white px-2 py-1"
               />
             </Link>

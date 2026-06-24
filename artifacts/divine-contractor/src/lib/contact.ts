@@ -1,6 +1,6 @@
 export const CONTACT = {
   person: "Mr Tunde Ariyo",
-  company: "Divine Construction Services",
+  company: "Divine Contractor Services",
   companyLegal: "Divine Contractor Services Ltd",
   directorEmail: "tunde.ariyo@divinecontractorservices.co.uk",
   supportEmail: "contact@divinecontractorservices.co.uk",
